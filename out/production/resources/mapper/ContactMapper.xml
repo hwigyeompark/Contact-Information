@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC
+        "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hs.dgsw.contact.Model.ContactMapper">
+    <select id="list" resultType="hashmap">
+        select idx, concat(lname, ' ', fname) fullname, phone, email
+        from tb_contact
+    </select>
+    <select id="view" parameterType="Integer" resultType="ContactDomain">
+        select idx, lname, fname, phone, email, birth, memo, created, updated
+        from tb_contact
+        where idx=#{idx}
+    </select>
+    <insert id="insert" parameterType="ContactDomain">
+        insert into tb_contact(lname, fname, phone, email, birth, memo)
+        values(#{lname}, #{fname}, #{phone}, #{email}, #{birth}, #{memo})
+    </insert>
+    <update id="update" parameterType="ContactDomain">
+        update tb_contact set
+        lname = #{lname},
+        fname = #{fname},
+        phone = #{phone},
+        email = #{email},
+        birth = #{birth},
+        memo = #{memo}
+        where idx=#{idx}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        delete from tb_contact where idx=#{idx}
+    </delete>
+    <select id="getLastID" resultType="Integer">
+        select last_insert_id()
+    </select>
+</mapper>
